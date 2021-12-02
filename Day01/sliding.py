@@ -1,4 +1,4 @@
-myFile = open("input_1.txt", 'r')
+myFile = open("input_01.txt", 'r')
 lines = myFile.readlines()
 depths = [int(x.strip()) for x in lines]
 
