@@ -1,22 +1,23 @@
-def navigate(input):
-    myFile = open(input, 'r')
-    lines = myFile.readlines()
-    instructions = [(x.split()[0], int(x.split()[1])) for x in lines]
+from utils import input_reader
 
-    coord = [0,0]
-    for instr, dist in instructions :
-        #print(instr, dist)
+
+def navigate(input):
+    instructions = input_reader(input, [str, int])
+
+    coord = [0, 0]
+    for instr, dist in instructions:
         if instr == 'forward':
             coord[0] += dist
-        elif instr == 'down' :
+        elif instr == 'down':
             coord[1] += dist
-        elif instr == 'up' :
+        elif instr == 'up':
             coord[1] -= dist
-        else :
+        else:
             print("Error : {} is not an instruction".format(instr))
     return coord
 
-#res = navigate('ex_02.txt')
+
+# res = navigate('ex_02.txt')
 res = navigate('input_02.txt')
 print(res)
-print(res[0]*res[1])
+print(res[0] * res[1])
