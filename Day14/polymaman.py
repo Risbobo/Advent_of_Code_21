@@ -9,38 +9,40 @@ def process(my_input):
     return base, insertions
 
 
-def add_one(dic, letter):
+def add_in_dic(dic, letter, value=1):
     if letter in dic:
-        dic[letter] += 1
+        dic[letter] += value
     else:
-        dic[letter] = 1
-
-
-# def remove_one(dic, letter):
-#     assert letter in dic
-#     dic[letter] -= 1
+        dic[letter] = value
 
 
 def polymerization(base, insertions, num_step=0):
     letters = {}
     pairs = {}
-    add_one(letters, base[0])
+    # Initialisation
+    add_in_dic(letters, base[0])
     for i in range(1, len(base)):
-        add_one(letters, base[i])
-        add_one(pairs, base[i-1] + base[i])
+        add_in_dic(letters, base[i])
+        add_in_dic(pairs, base[i - 1] + base[i])
+    # Update of the number of letters for each step
     for _ in range(num_step):
         next_pairs = {}
-        # Missing multiple occurences in pairs
         for pair in pairs:
+            val = pairs[pair]
             new_letter = insertions[pair]
-            add_one(letters, new_letter)
-            add_one(next_pairs, pair[0] + new_letter)
-            add_one(next_pairs, new_letter + pair[1])
+            add_in_dic(letters, new_letter, val)
+            add_in_dic(next_pairs, pair[0] + new_letter, val)
+            add_in_dic(next_pairs, new_letter + pair[1], val)
         pairs = next_pairs
-    return letters, pairs
+    return letters
 
 
-template, rules = process('ex_14.txt')
-print(template)
-print(rules)
-print(polymerization(template, rules, 3))
+# template, rules = process('ex_14.txt')
+template, rules = process('input_14.txt')
+
+# First part
+poly = polymerization(template, rules, 10)
+print("Answer to part 1 : ", max(poly.values()) - min(poly.values()))
+# Second part
+poly = polymerization(template, rules, 40)
+print("Answer to part 2 : ", max(poly.values()) - min(poly.values()))
